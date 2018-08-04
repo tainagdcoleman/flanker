@@ -1,0 +1,48 @@
+# Config file for flanker fish game
+
+## Instructions ##
+# List of ordered instruction slides to preface game slides
+# 
+# instructions:
+#   - title: <Title for slide (larger font)>
+#     image: <Relative path from this config file to image (centered on page)>
+#     prompt: <Instructions (smaller font) below image>
+
+# e.g.
+# instructions:
+#   - title: My instruction
+#     image: images/fish_right.png
+#     prompt: Do this then that
+#   - title: My second instruction
+#     image: images/fish_left.png
+#     prompt: Do this then that
+
+instructions:
+  - title: My instruction
+    image: fish_right.yml
+    prompt: Do this then that
+  - title: My second instruction
+    image: fish_left.yml
+    prompt: Do this then that
+
+## Slides ##    
+# Slides is a list of true, false pairs
+# the first element is the direction of all fish
+# the middle element is the direction of middle fish
+# true: right
+# false: left
+# slides: 
+# - [<true/false>, <true/false>]
+
+# e.g.
+# content: 
+# - [true, true]
+# - [false, true]
+# - [true, false]
+# - [false, false]
+    
+content: 
+- [true, true]
+- [false, true]
+- [true, false]
+- [false, false]
