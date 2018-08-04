@@ -1,0 +1,73 @@
+#:kivy 1.10.1
+
+<Start>:
+    GridLayout:
+        cols: 2
+        GridLayout:
+            row_force_default: True
+            row_default_height: 40
+            cols: 2
+            
+            Label:
+                text: 'Nome:'
+            TextInput:
+                id: name  
+                text: ''
+                on_text: root.update('name', self.text)
+
+            Label:
+                text: 'Data de nascimento:'
+            TextInput:
+                id: dob  
+                text: '' 
+                on_text:  root.update('dob', self.text)
+
+            Label:
+                text: 'Regiao:'
+            TextInput:
+                id: region  
+                text: ''  
+                on_text: root.update('region', self.text)
+        
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Flanker"
+                on_release: root.start_game('flanker')
+            Button:
+                text: "Memory"
+                on_release: root.start_game('memory')
+    
+<Flanker>:
+    GridLayout:
+        Button:
+            text: "Quit"
+            pos: 0, 0
+            size: root.width / 5, 50
+            on_release: root.manager.current = 'start'
+
+
+<Memory>:
+    GridLayout:
+        Button:
+            text: "Quit"
+            pos: 0, 0
+            size: root.width / 5, 50
+            on_release: root.manager.current = 'start'
+
+<Instruction>:
+    GridLayout:
+        Button:
+            text: "Quit"
+            pos: 0, 0
+            size: root.width / 5, 50
+            on_release: root.manager.current = 'start'
+
+        Label:
+            text: self.parent.parent.instructions[0]['title']
+
+        Button:
+            text: "Next"
+            pos: root.width - (root.width / 5), 0
+            size: root.width / 5, 50
+            on_release: root.next()
