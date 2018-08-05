@@ -4,30 +4,37 @@
     GridLayout:
         cols: 2
         GridLayout:
+            size_hint: 1.5, 1
             row_force_default: True
             row_default_height: 40
             cols: 2
             
             Label:
                 text: 'Nome:'
+                font_size: 24
             TextInput:
                 id: name  
                 text: ''
                 on_text: root.update('name', self.text)
+                font_size: 24
 
             Label:
                 text: 'Data de nascimento:'
+                font_size: 24
             TextInput:
                 id: dob  
                 text: '' 
                 on_text:  root.update('dob', self.text)
+                font_size: 24
 
             Label:
                 text: 'Regiao:'
+                font_size: 24
             TextInput:
                 id: region  
                 text: ''  
                 on_text: root.update('region', self.text)
+                font_size: 24
         
         BoxLayout:
             orientation: "vertical"
@@ -63,8 +70,30 @@
             size: root.width / 5, 50
             on_release: root.manager.current = 'start'
 
-        Label:
-            text: self.parent.parent.instructions[0]['title']
+        BoxLayout:
+            orientation: "vertical"
+            size: root.width, root.height - 50
+            pos: 0, 50  
+            Label:
+                text: '' if len(root.instructions) <= 0 else root.instructions[root.counter]['title']
+                text_size: root.width, None
+                halign: 'center'
+                valign: 'top'
+                padding: 20, 20
+                bold: True 
+                font_size: 36
+            Image:
+                source: None if len(root.instructions) <= 0 else root.instructions[root.counter]['image']
+            Label:
+                text: '' if len(root.instructions) <= 0 else root.instructions[root.counter]['prompt']
+                text_size: root.width, None
+                halign: 'center'
+                valign: 'top'
+                padding: 20, 20
+                font_size: 24
+
+                   
+
 
         Button:
             text: "Next"

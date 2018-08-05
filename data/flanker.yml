@@ -1,5 +1,6 @@
 # Config file for flanker fish game
 
+game: flanker
 ## Instructions ##
 # List of ordered instruction slides to preface game slides
 # 
@@ -19,11 +20,11 @@
 
 instructions:
   - title: My instruction
-    image: fish_right.yml
+    image: images/angry.png
     prompt: Do this then that
   - title: My second instruction
-    image: fish_left.yml
-    prompt: Do this then that
+    image: images/angry.png
+    prompt: Do this then that and llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
 
 ## Slides ##    
 # Slides is a list of true, false pairs

@@ -1,5 +1,5 @@
 # Config file for memory game
-
+game: memory
 ## Instructions ##
 # List of ordered instruction content to preface game content
 # 
@@ -18,10 +18,10 @@
 #     prompt: Do this then that
 
 instructions:
-  - title: My instruction
+  - title: My memory instruction
     image: fish_right.yml
     prompt: Do this then that
-  - title: My second instruction
+  - title: My second memory instruction
     image: fish_left.yml
     prompt: Do this then that
 

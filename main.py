@@ -4,9 +4,12 @@ kivy.require('1.10.1')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, NumericProperty
+import os
 
 import yaml
+
+path = os.path.dirname(os.path.realpath(__file__))
 
 info = {}
 config = {}
@@ -27,7 +30,8 @@ class Start(Screen):
 
     def start_game(self, game):
         global config
-        config = yaml.load(open('data/flanker.yml'))
+        config_path = os.path.join(path, 'data', f'{game}.yml')
+        config = yaml.load(open(config_path))
         sm.current = 'instruction'
 
 class Flanker(Screen):
@@ -39,17 +43,24 @@ class Memory(Screen):
         pass
 
 class Instruction(Screen):
-    instructions = ListProperty([{'title': 'N/A'}])
+    instructions = ListProperty([])
+    counter = NumericProperty(0)
     
-    def on_enter(self):
+    def on_pre_enter(self):
         global info, config
         self.info = info 
-        self.instructions = config['instructions']
-        print(self.info)
-        print(self.instructions)
+        instructions = config['instructions']  
+        for instruction in instructions:
+            instruction['image'] = os.path.join(path, 'data', instruction['image'])
+        
+        self.counter = 0
+        self.instructions = instructions
 
     def next(self):
-        self.instructions = self.instructions[1:]
+        if self.counter + 1 >= len(self.instructions):
+            sm.current = config['game']
+            return
+        self.counter += 1
 
 
 sm.add_widget(Start(name='start'))
