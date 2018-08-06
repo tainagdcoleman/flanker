@@ -8,15 +8,19 @@
             row_force_default: True
             row_default_height: 40
             cols: 2
-            
+    
+
             Label:
                 text: 'Nome:'
                 font_size: 24
+                   
+                
             TextInput:
                 id: name  
                 text: ''
-                on_text: root.update('name', self.text)
+                on_text: root.update('nome', self.text)
                 font_size: 24
+                
 
             Label:
                 text: 'Data de nascimento:'
@@ -24,7 +28,7 @@
             TextInput:
                 id: dob  
                 text: '' 
-                on_text:  root.update('dob', self.text)
+                on_text:  root.update('nasc', self.text)
                 font_size: 24
 
             Label:
@@ -33,7 +37,7 @@
             TextInput:
                 id: region  
                 text: ''  
-                on_text: root.update('region', self.text)
+                on_text: root.update('regiao', self.text)
                 font_size: 24
         
         BoxLayout:
@@ -47,15 +51,38 @@
     
 <Flanker>:
     GridLayout:
+        BoxLayout:
+            orientation: "horizontal"
+            size: root.width, root.height - 50
+            pos: 0, 50 
+            Image:
+                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
+            Image:
+                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
+
+            Image:
+                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][1] else root.left_image)
+
+            Image:
+                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
+            Image:
+                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
+
+
         Button:
             text: "Quit"
             pos: 0, 0
             size: root.width / 5, 50
             on_release: root.manager.current = 'start'
-
-
+       
 <Memory>:
     GridLayout:
+        BoxLayout:
+            orientation: "horizontal"
+            size: root.width, root.height - 50
+            pos: 0, 50 
+            Image:
+                source: None if len(root.content) <= 0 else root.paths[root.content[root.counter][root.inner_counter]]
         Button:
             text: "Quit"
             pos: 0, 0

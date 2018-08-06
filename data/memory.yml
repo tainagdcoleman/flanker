@@ -1,5 +1,7 @@
 # Config file for memory game
 game: memory
+
+
 ## Instructions ##
 # List of ordered instruction content to preface game content
 # 
@@ -19,10 +21,10 @@ game: memory
 
 instructions:
   - title: My memory instruction
-    image: fish_right.yml
+    image: images/fish_right.png
     prompt: Do this then that
   - title: My second memory instruction
-    image: fish_left.yml
+    image: images/fish_left.png
     prompt: Do this then that
 
 
@@ -38,8 +40,18 @@ instructions:
 # - name: egg
 #   path: images/egg.png
 
+# {
+#   'name': 'peanut',
+#   'path': 'images/peanut.png'
+# }
+
+# {
+#   'peanut': 'path/whatever/images/peanut.png'
+# }
 
 order: 
+- name: empty
+  path: images/empty.png
 - name: peanut
   path: images/peanut.png
 - name: egg
@@ -60,7 +72,7 @@ order:
 # - [onion, peanut]
     
 content: 
-- [peanut, orange]
-- [onion, peanut]
-- [egg, peanut]
-- [orange, onion, peanut]
+- [peanut, orange, empty]
+- [onion, peanut, empty]
+- [egg, peanut, empty]
+- [orange, onion, peanut, empty]

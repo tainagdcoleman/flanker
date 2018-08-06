@@ -1,6 +1,9 @@
 # Config file for flanker fish game
 
 game: flanker
+left_image: 'images/fish_left.png'
+right_image: 'images/fish_right.png'
+
 ## Instructions ##
 # List of ordered instruction slides to preface game slides
 # 
