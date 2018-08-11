@@ -1,28 +1,27 @@
 #:kivy 1.10.1
 
 <Start>:
-    GridLayout:
-        cols: 2
+    BoxLayout:
+        orientation: 'vertical'
         GridLayout:
-            size_hint: 1.5, 1
             row_force_default: True
             row_default_height: 40
             cols: 2
     
-
             Label:
+                size_hint_x: None 
+                width: 250
                 text: 'Nome:'
                 font_size: 24
-                   
-                
             TextInput:
                 id: name  
                 text: ''
                 on_text: root.update('nome', self.text)
                 font_size: 24
                 
-
             Label:
+                size_hint_x: None 
+                width: 250
                 text: 'Data de nascimento:'
                 font_size: 24
             TextInput:
@@ -32,6 +31,8 @@
                 font_size: 24
 
             Label:
+                size_hint_x: None 
+                width: 250
                 text: 'Regiao:'
                 font_size: 24
             TextInput:
@@ -39,16 +40,53 @@
                 text: ''  
                 on_text: root.update('regiao', self.text)
                 font_size: 24
+
+            Label:
+                size_hint_x: None 
+                width: 250
+                text: 'Salvar:'
+                font_size: 24
+            BoxLayout:
+                TextInput:
+                    id: save_location
+                    text: root.save_dir
+                    on_text: root.update('save_dir', self.text)
+                    font_size: 24
+                Button:
+                    size_hint_x: None 
+                    width: 100
+                    text: 'Escolher'
+                    on_release: root.show_load()
         
         BoxLayout:
-            orientation: "vertical"
             Button:
                 text: "Flanker"
+                disabled: root.games_disabled
                 on_release: root.start_game('flanker')
             Button:
                 text: "Memory"
+                disabled: root.games_disabled
                 on_release: root.start_game('memory')
-    
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
 <Flanker>:
     GridLayout:
         BoxLayout:
@@ -67,7 +105,6 @@
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
             Image:
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
-
 
         Button:
             text: "Quit"
@@ -118,9 +155,6 @@
                 valign: 'top'
                 padding: 20, 20
                 font_size: 24
-
-                   
-
 
         Button:
             text: "Next"
