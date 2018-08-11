@@ -22,13 +22,37 @@ right_image: 'images/fish_right.png'
 #     prompt: Do this then that
 
 instructions:
-  - title: My instruction
-    image: images/angry.png
-    prompt: Do this then that
-  - title: My second instruction
-    image: images/angry.png
-    prompt: Do this then that and llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
-
+  - title: Flanker Test
+    image: images/fish_right.png
+    prompt: " "
+  - title: “Veja, aqui está um peixe" \n (Mostrar primeiro a figura do peixe toda. Em seguida, mostrar o rabo e depois a boca)
+    image: images/instruction2.png
+    prompt: O peixe se movimenta nesta direção, ele nada na mesma direção \n Mostrar a direção da flecha correspondente a direção do peixe
+  - title: " "
+    image: images/instruction3.png
+    prompt: " " 
+  - title: "Instruções do examinador: \n Entre todos estes peixes, o peixe que fica no meio esta com um círculo em volta. \n Você pode me mostrar qual é?"
+    image: images/instructions3.png
+    prompt: (Se o aluno não conseguir encontrar o peixe do meio, indique com o seu dedo o peixe do meio mostrando os contornos do circulo no qual o peixe esta e fazer novamente a pergunta)
+  - title: " "
+    image: images/instruction5.png
+    prompt: " "
+  - title: "Instruções do examinador: \n Entre estes peixes agora, qual o peixe que esta no meio?"
+    image: images/instruction5.png
+    prompt: "(Se o aluno não conseguir encontrar o peixe do meio, indique com o seu dedo o peixe do meio refaça novamente a pergunta)"
+  - title: " "
+    image: images/instruction3.png
+    prompt: " "
+  - title: " "
+    image: images/instruction3.png
+    prompt: " "
+  - title: "Instruções do examinador: \n Olhe todos os peixes!!!! O peixe que está no MEIO tem fome. "
+    image: images/instruction3.png
+    prompt: " "
+  - title: " "
+    image: images/instruction10.png
+    prompt: " "  
+ 
 ## Slides ##    
 # Slides is a list of true, false pairs
 # the first element is the direction of all fish

@@ -49,6 +49,10 @@ class Start(Screen):
         global config
         config_path = os.path.join(path, 'data', f'{game}.yml')
         config = yaml.load(open(config_path))
+        for i in range(len(config['instructions'])):
+            print(i)
+            config['instructions'][i]['title'] = config['instructions'][i]['title'].replace('\\n', '\n')
+            config['instructions'][i]['prompt'] = config['instructions'][i]['prompt'].replace('\\n', '\n')
         sm.current = 'instruction'
 
 class Flanker(Screen):
