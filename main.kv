@@ -58,17 +58,11 @@
                 width: 250
                 text: 'Salvar:'
                 font_size: 24
-            BoxLayout:
-                TextInput:
-                    id: save_location
-                    text: root.save_dir
-                    on_text: root.update('save_dir', self.text)
-                    font_size: 24
-                Button:
-                    size_hint_x: None 
-                    width: 100
-                    text: 'Escolher'
-                    on_release: root.show_load()
+            TextInput:
+                id: save_location
+                text: root.save_dir
+                on_text: root.update('save_dir', self.text)
+                font_size: 24
         
         BoxLayout:
             Button:
@@ -80,25 +74,6 @@
                 text: "Memory"
                 disabled: root.games_disabled
                 on_release: root.start_game('memory')
-
-<LoadDialog>:
-    BoxLayout:
-        size: root.size
-        pos: root.pos
-        orientation: "vertical"
-        FileChooserListView:
-            id: filechooser
-
-        BoxLayout:
-            size_hint_y: None
-            height: 30
-            Button:
-                text: "Cancel"
-                on_release: root.cancel()
-
-            Button:
-                text: "Load"
-                on_release: root.load(filechooser.path, filechooser.selection)
 
 <Flanker>:
     GridLayout:

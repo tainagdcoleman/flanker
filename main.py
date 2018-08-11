@@ -8,10 +8,6 @@ from kivy.properties import ListProperty, NumericProperty, StringProperty, DictP
 from kivy.core.window import Window
 from kivy.clock import Clock 
 
-from kivy.uix.popup import Popup
-from kivy.uix.floatlayout import FloatLayout
-from kivy.factory import Factory
-
 from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 
@@ -23,7 +19,8 @@ from dateutil import relativedelta
 
 from openpyxl import Workbook 
 from openpyxl import load_workbook
-from openpyxl.styles import Font, Alignment
+from openpyxl.styles import Font, Alignment, NamedStyle
+
 
 from copy import deepcopy
 
@@ -63,12 +60,14 @@ def adjust_width(ws):
 def save_data(log, update_sheet):
     dob = string_to_date(info['nasc'])
     difference = relativedelta.relativedelta(datetime.now(), dob)
+    now = datetime.now()
 
     write_info = deepcopy(info)
 
-    write_info['nasc'] = dob
+    write_info['nasc'] = f'{dob.day}/{dob.month}/{dob.year}'
     write_info['idade_anos'] = difference.years
     write_info['idade_meses'] = difference.years * 12 + difference.months
+    write_info['date'] = f'{now.day}/{now.month}/{now.year}'
 
     del write_info['save_dir']
     data = {
@@ -76,7 +75,7 @@ def save_data(log, update_sheet):
         'log': log
     }
 
-    save_path = os.path.join(path, info['save_dir'], f'{info["nome"]} - {dob}.xlsx')
+    save_path = os.path.join(path, info['save_dir'], f'{write_info["nome"]} {dob.day}-{dob.month}-{dob.year}.xlsx')
     if os.path.exists(save_path):
         wb = load_workbook(save_path)
     else:
@@ -84,6 +83,7 @@ def save_data(log, update_sheet):
 
     bold = Font(bold=True, name='Calibri')
     center = Alignment(horizontal='center', vertical='center')
+    date_style = NamedStyle(name='datetime', number_format='DD/MM/YYYY')
 
     sheets = ['flanker', 'memoria']
     for name in wb.sheetnames:
@@ -98,24 +98,27 @@ def save_data(log, update_sheet):
     ws['A1'].alignment = center
     ws.column_dimensions['A'].width = 20
     ws.column_dimensions['B'].width = 15
-
     ws.merge_cells('A1:B1')
-    for idx, elem in enumerate(data['user'].items()):
-        key, value = elem
-        ws['A2'] = 'Nome'
-        ws['B2'] = data['user']['nome']
 
-        ws['A3'] = 'Data de Nascimento'
-        ws['B3'] = data['user']['nasc']
+    ws['A2'] = 'Nome'
+    ws['B2'] = data['user']['nome']
+    
+    ws['A3'] = 'Data do Teste'
+    ws['B3'] = data['user']['date']
+    ws['B3'].style = date_style
 
-        ws['A4'] = 'Regiao'
-        ws['B4'] = data['user']['regiao']
+    ws['A4'] = 'Data de Nascimento'
+    ws['B4'] = data['user']['nasc']
+    ws['B4'].style = date_style
 
-        ws['A5'] = 'Idade (Anos)'
-        ws['B5'] = data['user']['idade_anos']
+    ws['A5'] = 'Regiao'
+    ws['B5'] = data['user']['regiao']
 
-        ws['A6'] = 'Idade (Meses)'
-        ws['B6'] = data['user']['idade_meses']
+    ws['A6'] = 'Idade (Anos)'
+    ws['B6'] = data['user']['idade_anos']
+
+    ws['A7'] = 'Idade (Meses)'
+    ws['B7'] = data['user']['idade_meses']
 
     if update_sheet == 'flanker':
         if 'flanker' in wb.sheetnames:
@@ -217,28 +220,9 @@ def input_valid():
         return False
     return True 
 
-class LoadDialog(FloatLayout):
-    load = ObjectProperty(None)
-    cancel = ObjectProperty(None)
-
 class Start(Screen):
-    loadfile = ObjectProperty(None)
-    month_drop =  ObjectProperty(None)
     save_dir = StringProperty(os.path.join(os.path.expanduser('~'), 'Documents'))
     games_disabled = BooleanProperty(False)
-
-    def dismiss_popup(self):
-        self._popup.dismiss()
-
-    def show_load(self):
-        content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Select Directory", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
-
-    def load(self, path, filename):
-        self.update('save_dir', path)
-        self.dismiss_popup()
         
     def on_enter(self):
         global config
@@ -419,9 +403,6 @@ sm.add_widget(Instruction(name = 'instruction'))
 class MyApp(App):
     def build(self):
         return sm
-
-Factory.register('Start', cls=Start)
-Factory.register('LoadDialog', cls=LoadDialog)
 
 if __name__ == '__main__':
     MyApp().run()
