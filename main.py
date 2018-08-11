@@ -224,7 +224,7 @@ class LoadDialog(FloatLayout):
 class Start(Screen):
     loadfile = ObjectProperty(None)
     month_drop =  ObjectProperty(None)
-    save_dir = StringProperty(os.path.expanduser('~/Documents'))
+    save_dir = StringProperty(os.path.join(os.path.expanduser('~'), 'Documents'))
     games_disabled = BooleanProperty(False)
 
     def dismiss_popup(self):
