@@ -24,16 +24,20 @@ from openpyxl.styles import Font, Alignment, NamedStyle
 
 from copy import deepcopy
 
-
 path = os.path.dirname(os.path.realpath(__file__))
 
 info = {}
 config = {}
 
+bold = Font(bold=True, name='Calibri')
+center = Alignment(horizontal='center', vertical='center')
+date_style = NamedStyle(name='date', number_format='DD/MM/YYYY')
 
-Builder.load_file('main.kv')
+with open('main.kv', encoding='utf-8') as f:
+    Builder.load_string(f.read())
 
 sm = ScreenManager()
+instructions_key = ''
 
 def string_to_date(string):
     day, month, year = tuple([int(x) for x in string.replace(' ', '').split('/')])
@@ -81,10 +85,6 @@ def save_data(log, update_sheet):
     else:
         wb = Workbook()
 
-    bold = Font(bold=True, name='Calibri')
-    center = Alignment(horizontal='center', vertical='center')
-    date_style = NamedStyle(name='datetime', number_format='DD/MM/YYYY')
-
     sheets = ['flanker', 'memoria']
     for name in wb.sheetnames:
         if name not in sheets:
@@ -105,11 +105,11 @@ def save_data(log, update_sheet):
     
     ws['A3'] = 'Data do Teste'
     ws['B3'] = data['user']['date']
-    ws['B3'].style = date_style
+    ws['B3'].number_format='DD/MM/YYYY'
 
     ws['A4'] = 'Data de Nascimento'
     ws['B4'] = data['user']['nasc']
-    ws['B4'].style = date_style
+    ws['B4'].number_format='DD/MM/YYYY'
 
     ws['A5'] = 'Regiao'
     ws['B5'] = data['user']['regiao']
@@ -162,7 +162,7 @@ def save_data(log, update_sheet):
 
         ws['F3'] = '=SUMPRODUCT((A3:A99=B3:B99)*(A3:A99<>""))'
         ws['F4'] = '=SUM(C3:C99)'
-        ws['F5'] = '=F4/COUNT(C3:C6)'
+        ws['F5'] = '=F4/COUNT(C3:C99)'
 
     elif update_sheet=='memory':
         if 'memoria' in wb.sheetnames:
@@ -201,10 +201,21 @@ def save_data(log, update_sheet):
 
         ws['F3'] = '=COUNTIF(A3:A99, "certo")'
         ws['F4'] = '=SUM(B3:B99)'
-        ws['F5'] = '=F4/COUNT(B3:B6)'
+        ws['F5'] = '=F4/COUNT(B3:B99)'
 
-    wb.save(filename=save_path)
-    wb.close()
+    try:
+        wb.save(filename=save_path)
+        wb.close()
+    except Exception as e:
+        p, ext = os.path.splitext(save_path)
+        for i in range(100):
+            new_path = f'{p} ({i}){ext}'
+            if not os.path.exists(new_path):
+                wb.save(filename=new_path)
+                wb.close()
+                return 
+        
+    
 
 
 def input_valid():
@@ -238,9 +249,11 @@ class Start(Screen):
         self.games_disabled = not input_valid()
 
     def start_game(self, game):
-        global config
+        global config, instructions_key
         config_path = os.path.join(path, 'data', f'{game}.yml')
         config = yaml.load(open(config_path, encoding='utf-8'))
+
+        instructions_key = 'instructions'
         sm.current = 'instruction'
 
 class Flanker(Screen):
@@ -250,8 +263,9 @@ class Flanker(Screen):
     counter = NumericProperty()
 
     def _keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-        self._keyboard = None
+        if(self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+            self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] in self.keys and len(self.log) < len(self.content):       
@@ -295,7 +309,8 @@ class Flanker(Screen):
 
         save_data(log_data, 'flanker')
 
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+        if(self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
 
 class Memory(Screen):
     counter = NumericProperty()
@@ -312,8 +327,9 @@ class Memory(Screen):
                 self.start_time = time.time()
     
     def _keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-        self._keyboard = None
+        if(self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+            self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if (keycode[1] in self.keys 
@@ -321,74 +337,115 @@ class Memory(Screen):
             and len(self.log) < len(self.content)):
 
             if self.counter + 1 >= len(self.content):
-                sm.current = 'start'
+                global instructions_key
+                if instructions_key == 'instructions':
+                    self.inner_counter = 0
+                    self.counter = 0
+                    instructions_key = 'instructions2'
+                    sm.current = 'instruction'
+                else:  
+                    log_data = []
+                    log = [item for sublist in self.logs for item in sublist]
+                    for i in range(len(log)):
+                        is_true, dt = log[i]
+                        log_data.append({
+                            'res': 'certo' if is_true else 'errado',
+                            'time': dt
+                        })
+
+                    save_data(log_data, 'memory')
+                    sm.current = 'start'
                 return True
 
             is_true = keycode[1] in self.true_keys
             dt = time.time() - self.start_time
             self.log.append((is_true, dt))
 
-            self.counter += 1
             self.inner_counter = 0
+            self.counter += 1
             self.interval = Clock.schedule_interval(self.update, 2.0)
               
         return True
     
     def on_pre_enter(self):
-        paths = {}
-        for entry in config['order']:
-            paths[entry['name']] = os.path.join(path, 'data', entry['path'])
-
-        self.paths = paths 
-        self.counter = 0
         self.inner_counter = 0
-        self.content = config['content']
+        self.counter = 0
 
-        self.true_keys = {'1', 'numpad1', 'right'}
-        self.false_keys = {'0', 'numpad0', 'left'}
-        self.keys = self.true_keys | self.false_keys
+        if instructions_key == 'instructions':
+            paths = {}
+            for entry in config['order']:
+                paths[entry['name']] = os.path.join(path, 'data', entry['path'])
+
+            self.logs = []
+            self.paths = paths 
+            self.content = config['content']
+
+            self.true_keys = {'1', 'numpad1', 'right'}
+            self.false_keys = {'0', 'numpad0', 'left'}
+            self.keys = self.true_keys | self.false_keys
+        elif instructions_key == 'instructions2':
+            self.content = config['content2']
+        
+        self.logs.append([])
+        self.log = self.logs[-1]
+
         self.start_time = time.time()
-        self.log = []
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
-    
+
+
     def on_enter(self):
         self.interval = Clock.schedule_interval(self.update, 2.0)
         
-    def on_leave(self):
-        log_data = []
-        for i in range(len(self.log)):
-            is_true, dt = self.log[i]
-            log_data.append({
-                'res': 'certo' if is_true else 'errado',
-                'time': dt
-            })
-
-        save_data(log_data, 'memory')
-        
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-        self.interval.cancel()
+    def on_leave(self): 
+        if(self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+            self.interval.cancel()
 
 
 class Instruction(Screen):
     instructions = ListProperty([])
     counter = NumericProperty(0)
+
+    def _keyboard_closed(self):
+        if(self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+            self._keyboard = None
+
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        print(keycode[1])
+        if (keycode[1] in ['spacebar', 'right']):
+            self.next()
+        elif (keycode[1] in ['left']):
+            self.previous()
     
     def on_pre_enter(self):
         global info, config
         self.info = info 
-        instructions = config['instructions']  
+        instructions = config[instructions_key]  
         for instruction in instructions:
             instruction['image'] = os.path.join(path, 'data', instruction['image'])
         
         self.counter = 0
         self.instructions = instructions
+        
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
 
     def next(self):
         if self.counter + 1 >= len(self.instructions):
             sm.current = config['game']
-            return
-        self.counter += 1
+        else:
+            self.counter += 1
+
+    def previous(self):
+        if self.counter - 1 >= 0:
+            self.counter -= 1
+
+    def on_leave(self):
+        if (self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+
 
 
 sm.add_widget(Start(name='start'))

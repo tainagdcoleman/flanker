@@ -105,7 +105,7 @@
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
 
         Button:
-            text: "Quit"
+            text: "Sair"
             pos: 0, 0
             size: root.width / 5, 50
             on_release: root.manager.current = 'start'
@@ -180,7 +180,14 @@
                 size_hint: 1, 0.25
 
         Button:
-            text: "Next"
+            text: "Proximo"
             pos: root.width - (root.width / 5), 0
             size: root.width / 5, 50
             on_release: root.next()
+        
+        Button:
+            text: "Anterior"
+            disabled: root.counter <= 0
+            pos: root.width - 2*(root.width / 5), 0
+            size: root.width / 5, 50
+            on_release: root.previous()

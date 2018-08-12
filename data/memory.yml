@@ -80,7 +80,7 @@ instructions:
   - title: "Instruções do examinador: \n P7. Procure lembrar o nome os animais que viu do menor para o maior.\n Resposta: coelho, ovelha e elefante "
     image: images/mem21.png
     prompt: ""
-  # - title: " "
+ # - title: " "
   #   image: images/pig.png
   #   prompt: ""
   # - title: " "
@@ -137,6 +137,69 @@ instructions:
   # - title: " "
   #   image: images/empty.png
   #   prompt: ""
+
+instructions2:
+  - title: "O Examinador fornece as instruções.\n  "
+    image: images/mem0.png
+    prompt: "Mas antes, na próxima página será mostrado todos os animais."
+  - title: ""
+    image: images/animals.png
+    prompt: ""
+  - title: "Instruções do examinador: \n Você pode me dizer o nome de cada animal?"
+    image: images/mem1.png
+    prompt: "Agora você verá uma página que mostra todos os alimentos que vamos ver neste exercício."
+  - title: "O Examinador fornece as instruções.\n Você pode me dizer o nome de cada alimento?"
+    image: images/mem5.png
+    prompt: "VOCÊ ESTÁ PRONTO?"
+  - title: ""
+    image: images/mem6.png
+    prompt: ""
+  - title: "Instruções do examinador:"
+    image: images/mem6.png
+    prompt: "Aqui está o cachorro e aqui está a vaca. \n P1. Diga-me o nome do animal menor. \n P2. Diga-me o nome do animal maior."
+  - title: ""
+    image: images/empty.png
+    prompt: ""
+  - title: "Instruções do examinador: "
+    image: images/mem9.png
+    prompt: "" 
+  - title: " "
+    image: images/dog.png
+    prompt: "" 
+  - title: " "
+    image: images/cow.png
+    prompt: "" 
+  - title: " "
+    image: images/empty.png
+    prompt: "" 
+  - title: "Instruções do examinador: \n P3.Diga os nomes dos animais do menor para o maior."
+    image: images/empty.png
+    prompt: "Resposta: Cachorro, Vaca." 
+  - title: " "
+    image: images/3animals.png
+    prompt: ""
+  - title: "Instruções do examinador: "
+    image: images/3animals.png
+    prompt: "Aqui está o coelho, ovelha e o elefante.\n P4. Diga-me o nome do animal menor, o mais pequeno.\n P5.Diga-me o nome do primeiro animal mais grande que o coelho.\n P6. Diga-me o nome do segundo animal mais grande." 
+  - title: "Instruções do examinador: "
+    image: images/mem16.png
+    prompt: ""
+  - title: " "
+    image: images/bunny.png
+    prompt: ""
+  - title: " "
+    image: images/lamb.png
+    prompt: ""
+  - title: " "
+    image: images/elephant.png
+    prompt: ""
+  - title: " "
+    image: images/empty.png
+    prompt: ""
+  - title: "Instruções do examinador: \n P7. Procure lembrar o nome os animais que viu do menor para o maior.\n Resposta: coelho, ovelha e elefante "
+    image: images/mem21.png
+    prompt: ""
+ 
   
 ## Order ##
 # order is a list of elements (name and image) in order from smallest to largest
@@ -231,6 +294,20 @@ order:
 # - [onion, peanut]
     
 content:
+- [pig, mouse, empty]
+- [banana, coconut, empty]
+- [coconut, lime, banana, empty]
+- [dog, cow, bunny, empty]
+- [elephant, butterfly, pig, bunny, empty]
+- [pineapple, egg, mango, beans, empty] 
+- [bird, cow, elephant, dog, chicken, empty]
+- [onion, egg, mango, beans, pineapple, empty]
+- [beans, lime, orange, mango, egg, pineapple, empty]
+- [cow, bunny, turtle, butterfly, frog, dog, empty]
+- [dog, frog, elephant, butterfly, bunny, lion, cow, empty]
+- [papaya, lime, banana, egg, corn, beans, pineapple, empty]
+
+content2:
 - [pig, mouse, empty]
 - [banana, coconut, empty]
 - [coconut, lime, banana, empty]
