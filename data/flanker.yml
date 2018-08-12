@@ -43,16 +43,41 @@ instructions:
   - title: " "
     image: images/instruction3.png
     prompt: " "
-  - title: " "
-    image: images/instruction3.png
-    prompt: " "
   - title: "Instruções do examinador: \n Olhe todos os peixes!!!! O peixe que está no MEIO tem fome. "
     image: images/instruction3.png
     prompt: " "
   - title: " "
     image: images/instruction10.png
     prompt: " "  
- 
+  - title: "Instruções do examinador: \n Para alimentar o peixe que esta no meio, escolha rapidamente o botão que corresponde a direção para a qual ele nada. "
+    image: images/instruction10.png
+    prompt: "(Se o aluno não conseguir encontrar o peixe do meio, indique com o seu dedo o peixe do meio mostrando os contornos do circulo no qual o peixe esta e fazer novamente a pergunta) " 
+  - title: " "
+    image: images/instruction11.png
+    prompt: " " 
+  - title: "Instruções do examinador: \n O peixe que está no meio nada nesta direção, então eu vou escolher este botão: "
+    image: images/instruction11.png
+    prompt: "(mostrar com a sua mão em seguida o botão correspondente)."
+  - title: " "
+    image: images/instruction10.png
+    prompt: " "  
+  - title: "Instruções do examinador: \n Se o peixe que esta no meio nadar nesta direção, escolha este botão. "
+    image: images/instruction10.png
+    prompt: "(mostrar com a sua mão em seguida o botão correspondente)."
+  - title: " "
+    image: images/instruction15.png
+    prompt: " "
+  - title: "Instruções do examinador: \n  As vezes todos os peixes nadam na mesma direção. As vezes o peixe que está no meio nadando no sentido contrário como nesta figura: \n  (mostrar ao aluno a direção dos peixes que estão a direta e a esquerda do peixe do meio.) \n (Em seguida mostrar a direção contraria do peixe do meio)."
+    image: images/instruction16.png
+    prompt: "Você deve escolher sempre  o botão que corresponde a direção tomada pelo peixe que esta no meio. "  
+  - title: " "
+    image: images/instruction17.png
+    prompt: " " 
+  - title: "Instruções do examinador: \n O peixe que esta no meio nada nesta direção, eu vou portanto escolher este botão:  "
+    image: images/instruction17.png
+    prompt: "(mostrar com a sua mão em seguida o botão correspondente). " 
+  
+
 ## Slides ##    
 # Slides is a list of true, false pairs
 # the first element is the direction of all fish
@@ -70,7 +95,25 @@ instructions:
 # - [false, false]
     
 content: 
+- [true, false]
+- [false, true]
+- [false, false]
+- [true, true]
+- [false, true]
+- [false, false]
+- [true, true]
+- [true, false]
+- [true, true]
+- [true, false]
+- [false, true]
+- [false, false]
+- [false, false]
+- [true, true]
+- [false, true]
 - [true, true]
 - [false, true]
 - [true, false]
-- [false, false]
+- [true, true]
+
+
+
