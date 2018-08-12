@@ -1,7 +1,7 @@
 # Neuropsy (formerly flanker)
 
 ## Install
-[Click here to install the latest release](https://github.com/tainagdcoleman/flanker/releases/download/1.5/setup.exe)
+[Click here to install the latest release](https://github.com/tainagdcoleman/flanker/releases/latest)
 
 ## Dependencies
 * pyyaml
