@@ -400,9 +400,11 @@ sm.add_widget(Flanker(name='flanker'))
 sm.add_widget(Memory(name='memory'))
 sm.add_widget(Instruction(name = 'instruction'))
 
-class MyApp(App):
+class NeuropsyApp(App):
+    icon = 'icon.png'
+
     def build(self):
         return sm
 
 if __name__ == '__main__':
-    MyApp().run()
+    NeuropsyApp().run()
