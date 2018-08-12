@@ -178,6 +178,8 @@ order:
   path: images/orange.png
 - name: coconut
   path: images/coconut.png
+- name: mango
+  path: images/mango.png
 - name: banana
   path: images/banana.png
 - name: corn
@@ -236,7 +238,7 @@ content:
 - [elephant, butterfly, pig, bunny, empty]
 - [pineapple, egg, mango, beans, empty] 
 - [bird, cow, elephant, dog, chicken, empty]
-- [onion, egg, mango, beans, pineaplle, empty]
+- [onion, egg, mango, beans, pineapple, empty]
 - [beans, lime, orange, mango, egg, pineapple, empty]
 - [cow, bunny, turtle, butterfly, frog, dog, empty]
 - [dog, frog, elephant, butterfly, bunny, lion, cow, empty]
