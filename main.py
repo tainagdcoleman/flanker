@@ -16,13 +16,18 @@ import time
 import yaml
 from datetime import datetime, date
 from dateutil import relativedelta
+from copy import deepcopy
 
 from openpyxl import Workbook 
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Alignment, NamedStyle
 
+from screeninfo import get_monitors
 
-from copy import deepcopy
+m = get_monitors()[0]
+Window.size = (m.width * 0.9 , m.height * 0.9)
+Window.left = m.width * 0.05
+Window.top = m.height * 0.05
 
 path = os.path.dirname(os.path.realpath(__file__))
 
@@ -32,6 +37,10 @@ config = {}
 bold = Font(bold=True, name='Calibri')
 center = Alignment(horizontal='center', vertical='center')
 date_style = NamedStyle(name='date', number_format='DD/MM/YYYY')
+
+default_save_dir = os.path.join(os.path.expanduser('~'), 'Neuropsy')
+if not os.path.exists(default_save_dir):
+    os.makedirs(default_save_dir)
 
 with open('main.kv', encoding='utf-8') as f:
     Builder.load_string(f.read())
@@ -232,7 +241,7 @@ def input_valid():
     return True 
 
 class Start(Screen):
-    save_dir = StringProperty(os.path.join(os.path.expanduser('~'), 'Documents'))
+    save_dir = StringProperty(default_save_dir)
     games_disabled = BooleanProperty(False)
         
     def on_enter(self):
