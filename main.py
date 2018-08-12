@@ -157,8 +157,8 @@ def save_data(log, update_sheet):
         ws['E2'].font = bold
         ws['E2'].alignment = center
         ws['E3'] = 'Acertos'
-        ws['E4'] = 'Tempo Total (s)'
-        ws['E5'] = 'Tempo (Media)'
+        ws['E4'] = 'Tempo Total(s)'
+        ws['E5'] = 'Tempo (média)'
 
         ws['F3'] = '=SUMPRODUCT((A3:A99=B3:B99)*(A3:A99<>""))'
         ws['F4'] = '=SUM(C3:C99)'
@@ -241,10 +241,6 @@ class Start(Screen):
         global config
         config_path = os.path.join(path, 'data', f'{game}.yml')
         config = yaml.load(open(config_path, encoding='utf-8'))
-        for i in range(len(config['instructions'])):
-            print(i)
-            # config['instructions'][i]['title'] = config['instructions'][i]['title'].replace('\\n', '\n')
-            # config['instructions'][i]['prompt'] = config['instructions'][i]['prompt'].replace('\\n', '\n')
         sm.current = 'instruction'
 
 class Flanker(Screen):

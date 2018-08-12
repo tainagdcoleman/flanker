@@ -44,9 +44,9 @@
             Label:
                 size_hint_x: None 
                 width: 250
-                text: 'Regiao:'
                 font_size: 24
                 color: 0,0,0,1  
+                text: 'Região:'
             TextInput:
                 id: region  
                 text: ''  
@@ -56,7 +56,8 @@
             Label:
                 size_hint_x: None 
                 width: 250
-                text: 'Salvar:'
+                text: 'Salvar Como:'
+                color: 0,0,0,1
                 font_size: 24
             TextInput:
                 id: save_location
@@ -67,11 +68,14 @@
         BoxLayout:
             Button:
                 text: "Flanker"
+                font_size: 40
                 disabled: root.games_disabled
                 on_release: root.start_game('flanker')
+            
                 
             Button:
-                text: "Memory"
+                text: "List Sorting"
+                font_size: 40
                 disabled: root.games_disabled
                 on_release: root.start_game('memory')
 
@@ -159,10 +163,12 @@
                 valign: 'top'
                 padding: 20, 20
                 bold: True 
-                font_size: 36
+                font_size: 30
                 color: 0,0,0,1
+                size_hint: 1, 0.25
             Image:
                 source: None if len(root.instructions) <= 0 else root.instructions[root.counter]['image']
+                size_hint: 1, 0.5
             Label:
                 text: '' if len(root.instructions) <= 0 else root.instructions[root.counter]['prompt']
                 text_size: root.width, None
@@ -171,6 +177,7 @@
                 padding: 20, 20
                 font_size: 24
                 color: 0,0,0,1
+                size_hint: 1, 0.25
 
         Button:
             text: "Next"

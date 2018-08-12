@@ -20,14 +20,124 @@ game: memory
 #     prompt: Do this then that
 
 instructions:
-  - title: My memory instruction
-    image: images/fish_right.png
-    prompt: Do this then that
-  - title: My second memory instruction
-    image: images/fish_left.png
-    prompt: Do this then that
-
-
+  - title: "O Examinador fornece as instruções.\n  "
+    image: images/mem0.png
+    prompt: "Mas antes, na próxima página será mostrado todos os animais."
+  - title: ""
+    image: images/animals.png
+    prompt: ""
+  - title: "Instruções do examinador: \n Você pode me dizer o nome de cada animal?"
+    image: images/mem1.png
+    prompt: "Agora você verá uma página que mostra todos os alimentos que vamos ver neste exercício."
+  - title: "O Examinador fornece as instruções.\n Você pode me dizer o nome de cada alimento?"
+    image: images/mem5.png
+    prompt: "VOCÊ ESTÁ PRONTO?"
+  - title: ""
+    image: images/mem6.png
+    prompt: ""
+  - title: "Instruções do examinador:"
+    image: images/mem6.png
+    prompt: "Aqui está o cachorro e aqui está a vaca. \n P1. Diga-me o nome do animal menor. \n P2. Diga-me o nome do animal maior."
+  - title: ""
+    image: images/empty.png
+    prompt: ""
+  - title: "Instruções do examinador: "
+    image: images/mem9.png
+    prompt: "" 
+  - title: " "
+    image: images/dog.png
+    prompt: "" 
+  - title: " "
+    image: images/cow.png
+    prompt: "" 
+  - title: " "
+    image: images/empty.png
+    prompt: "" 
+  - title: "Instruções do examinador: \n P3.Diga os nomes dos animais do menor para o maior."
+    image: images/empty.png
+    prompt: "Resposta: Cachorro, Vaca." 
+  - title: " "
+    image: images/3animals.png
+    prompt: ""
+  - title: "Instruções do examinador: "
+    image: images/3animals.png
+    prompt: "Aqui está o coelho, ovelha e o elefante.\n P4. Diga-me o nome do animal menor, o mais pequeno.\n P5.Diga-me o nome do primeiro animal mais grande que o coelho.\n P6. Diga-me o nome do segundo animal mais grande." 
+  - title: "Instruções do examinador: "
+    image: images/mem16.png
+    prompt: ""
+  - title: " "
+    image: images/bunny.png
+    prompt: ""
+  - title: " "
+    image: images/lamb.png
+    prompt: ""
+  - title: " "
+    image: images/elephant.png
+    prompt: ""
+  - title: " "
+    image: images/empty.png
+    prompt: ""
+  - title: "Instruções do examinador: \n P7. Procure lembrar o nome os animais que viu do menor para o maior.\n Resposta: coelho, ovelha e elefante "
+    image: images/mem21.png
+    prompt: ""
+  # - title: " "
+  #   image: images/pig.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/mouse.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/empty.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/banana.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/coconut.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/empty.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/coconut.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/lime.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/banana.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/empty.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/dog.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/cow.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/bunny.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/empty.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/elephant.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/butterfly.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/pig.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/bunny.png
+  #   prompt: ""
+  # - title: " "
+  #   image: images/empty.png
+  #   prompt: ""
+  
 ## Order ##
 # order is a list of elements (name and image) in order from smallest to largest
 # name: name of the item in image (will be used for game content later)
@@ -52,14 +162,61 @@ instructions:
 order: 
 - name: empty
   path: images/empty.png
+- name: beans
+  path: images/beans.png
 - name: peanut
   path: images/peanut.png
 - name: egg
   path: images/egg.png
-- name: orange
-  path: images/orange.png
+- name: lime
+  path: images/lime.png
+- name: peach
+  path: images/peach.png
 - name: onion
   path: images/onion.png
+- name: orange
+  path: images/orange.png
+- name: coconut
+  path: images/coconut.png
+- name: banana
+  path: images/banana.png
+- name: corn
+  path: images/corn.png
+- name: papaya
+  path: images/papaya.png
+- name: pineapple
+  path: images/pineapple.png
+- name: butterfly
+  path: images/butterfly.png
+- name: bird
+  path: images/bird.png
+- name: mouse
+  path: images/mouse.png
+- name: frog
+  path: images/frog.png
+- name: turtle
+  path: images/turle.png
+- name: bunny
+  path: images/bunny.png
+- name: chicken
+  path: images/chicken.png
+- name: monkey
+  path: images/monkey.png
+- name: lamb
+  path: images/lamb.png
+- name: goat
+  path: images/goat.png
+- name: dog
+  path: images/dog.png
+- name: pig
+  path: images/pig.png
+- name: lion
+  path: images/lion.png
+- name: cow
+  path: images/cow.png
+- name: elephant
+  path: images/elephant.png 
+
 
 ## Content ##    
 # Content is a list of images (defined in order) to display in order, followed by a blank display
@@ -71,8 +228,18 @@ order:
 # - [peanut, orange]
 # - [onion, peanut]
     
-content: 
-- [peanut, orange, empty]
-- [onion, peanut, empty]
-- [egg, peanut, empty]
-- [orange, onion, peanut, empty]
+content:
+- [pig, mouse, empty]
+- [banana, coconut, empty]
+- [coconut, lime, banana, empty]
+- [dog, cow, bunny, empty]
+- [elephant, butterfly, pig, bunny, empty]
+- [pineapple, egg, mango, beans, empty] 
+- [bird, cow, elephant, dog, chicken, empty]
+- [onion, egg, mango, beans, pineaplle, empty]
+- [beans, lime, orange, mango, egg, pineapple, empty]
+- [cow, bunny, turtle, butterfly, frog, dog, empty]
+- [dog, frog, elephant, butterfly, bunny, lion, cow, empty]
+- [papaya, lime, banana, egg, corn, beans, pineapple, empty]
+
+#instructions come back 
