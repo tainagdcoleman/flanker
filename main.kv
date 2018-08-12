@@ -177,3 +177,10 @@
             pos: root.width - (root.width / 5), 0
             size: root.width / 5, 50
             on_release: root.next()
+        
+        Button:
+            text: "Previous"
+            disabled: root.counter <= 0
+            pos: root.width - 2*(root.width / 5), 0
+            size: root.width / 5, 50
+            on_release: root.previous()

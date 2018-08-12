@@ -27,6 +27,13 @@ instructions:
     image: images/fish_left.png
     prompt: Do this then that
 
+instructions2:
+  - title: My memory instruction
+    image: images/fish_right.png
+    prompt: Do this then that
+  - title: My second memory instruction
+    image: images/fish_left.png
+    prompt: Do this then that
 
 ## Order ##
 # order is a list of elements (name and image) in order from smallest to largest
@@ -74,5 +81,13 @@ order:
 content: 
 - [peanut, orange, empty]
 - [onion, peanut, empty]
-- [egg, peanut, empty]
 - [orange, onion, peanut, empty]
+- [egg, peanut, empty]
+
+
+    
+content2: 
+- [peanut, onion, peanut, empty]
+- [peanut, orange, empty]
+- [onion, peanut, empty]
+- [egg, peanut, empty]
