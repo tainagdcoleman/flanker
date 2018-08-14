@@ -80,126 +80,60 @@ instructions:
   - title: "Instruções do examinador: \n P7. Procure lembrar o nome os animais que viu do menor para o maior.\n Resposta: coelho, ovelha e elefante "
     image: images/mem21.png
     prompt: ""
- # - title: " "
-  #   image: images/pig.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/mouse.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/empty.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/banana.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/coconut.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/empty.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/coconut.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/lime.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/banana.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/empty.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/dog.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/cow.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/bunny.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/empty.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/elephant.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/butterfly.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/pig.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/bunny.png
-  #   prompt: ""
-  # - title: " "
-  #   image: images/empty.png
-  #   prompt: ""
+ 
 
 instructions2:
-  - title: "O Examinador fornece as instruções.\n  "
-    image: images/mem0.png
-    prompt: "Mas antes, na próxima página será mostrado todos os animais."
+  - title: "Instruções do examinador: \n  "
+    image: images/mem88.png
+    prompt: "Você está pronto?\n Vamos ver alguns exemplos juntos. "
   - title: ""
-    image: images/animals.png
+    image: images/mem89.png
     prompt: ""
-  - title: "Instruções do examinador: \n Você pode me dizer o nome de cada animal?"
-    image: images/mem1.png
-    prompt: "Agora você verá uma página que mostra todos os alimentos que vamos ver neste exercício."
-  - title: "O Examinador fornece as instruções.\n Você pode me dizer o nome de cada alimento?"
-    image: images/mem5.png
-    prompt: "VOCÊ ESTÁ PRONTO?"
+  - title: "Instruções do examinador: \n Aqui tem uma vaca e uma banana."
+    image: images/mem89.png
+    prompt: "P8: mostre qual é o animal.\n P9: mostre qual é o alimento."
+  - title: "Instruções do examinador: \n"
+    image: images/mem91.png
+    prompt: ""
   - title: ""
-    image: images/mem6.png
-    prompt: ""
-  - title: "Instruções do examinador:"
-    image: images/mem6.png
-    prompt: "Aqui está o cachorro e aqui está a vaca. \n P1. Diga-me o nome do animal menor. \n P2. Diga-me o nome do animal maior."
-  - title: ""
-    image: images/empty.png
-    prompt: ""
-  - title: "Instruções do examinador: "
-    image: images/mem9.png
-    prompt: "" 
-  - title: " "
-    image: images/dog.png
-    prompt: "" 
-  - title: " "
     image: images/cow.png
-    prompt: "" 
-  - title: " "
+    prompt: ""
+  - title: ""
+    image: images/banana.png
+    prompt: ""
+  - title: ""
     image: images/empty.png
-    prompt: "" 
-  - title: "Instruções do examinador: \n P3.Diga os nomes dos animais do menor para o maior."
-    image: images/empty.png
-    prompt: "Resposta: Cachorro, Vaca." 
-  - title: " "
-    image: images/3animals.png
     prompt: ""
   - title: "Instruções do examinador: "
-    image: images/3animals.png
-    prompt: "Aqui está o coelho, ovelha e o elefante.\n P4. Diga-me o nome do animal menor, o mais pequeno.\n P5.Diga-me o nome do primeiro animal mais grande que o coelho.\n P6. Diga-me o nome do segundo animal mais grande." 
-  - title: "Instruções do examinador: "
-    image: images/mem16.png
+    image: images/mem95.png
+    prompt: "Você está pronto?" 
+  - title: " "
+    image: images/mem96.png
+    prompt: "" 
+  - title: "Instruções do examinador: \n Aqui temos um abacaxi, um sapo e um leão."
+    image: images/mem96.png
+    prompt: "P11. Me diga o nome do alimento. \n P12. Me diga o nome do animal menor.\n P13. Me diga o nome do animal maior" 
+  - title: "Instruções do examinador:\n"
+    image: images/mem98.png
+    prompt: "Vamos começar observando juntos as figuras." 
+  - title: " "
+    image: images/pineapple.png
     prompt: ""
   - title: " "
-    image: images/bunny.png
+    image: images/frog.png
     prompt: ""
   - title: " "
-    image: images/lamb.png
-    prompt: ""
-  - title: " "
-    image: images/elephant.png
+    image: images/lion.png
     prompt: ""
   - title: " "
     image: images/empty.png
     prompt: ""
-  - title: "Instruções do examinador: \n P7. Procure lembrar o nome os animais que viu do menor para o maior.\n Resposta: coelho, ovelha e elefante "
-    image: images/mem21.png
-    prompt: ""
- 
+  - title: "Instruções do examinador: \n Me diga agora o nome do alimento e em seguida o nome do animal classificando do menor para o maior."
+    image: images/empty.png
+    prompt: "Resposta: abacaxi, sapo, leão."
+  - title: "Instruções do examinador:"
+    image: images/mem104.png
+    prompt: "Pronto?"
   
 ## Order ##
 # order is a list of elements (name and image) in order from smallest to largest
@@ -308,17 +242,17 @@ content:
 - [papaya, lime, banana, egg, corn, beans, pineapple, empty]
 
 content2:
-- [pig, mouse, empty]
-- [banana, coconut, empty]
-- [coconut, lime, banana, empty]
-- [dog, cow, bunny, empty]
-- [elephant, butterfly, pig, bunny, empty]
-- [pineapple, egg, mango, beans, empty] 
-- [bird, cow, elephant, dog, chicken, empty]
-- [onion, egg, mango, beans, pineapple, empty]
-- [beans, lime, orange, mango, egg, pineapple, empty]
-- [cow, bunny, turtle, butterfly, frog, dog, empty]
-- [dog, frog, elephant, butterfly, bunny, lion, cow, empty]
-- [papaya, lime, banana, egg, corn, beans, pineapple, empty]
+- [corn, bunny, empty]
+- [pig, beans, empty]
+- [orange, dog, pineapple, empty]
+- [elephant, coconut, chicken, empty]
+- [cow, egg, pig, onion, empty]
+- [lime, dog, papaya, turtle, empty] 
+- [coconut, chicken, egg, bird, orange, empty]
+- [mango, elephant, beans, lion, bunny, empty]
+- [beans, frog, banana, cow, lime, pig, empty]
+- [coconut, monkey, lime, cow, banana, turtle, empty]
+- [dog, mango, elephant, egg, bunny, coconut, cow, empty]
+- [corn, butterfly, onion, cow, beans, chicken, pineapple, empty]
 
 #instructions come back 
