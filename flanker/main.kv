@@ -1,6 +1,13 @@
 #:kivy 1.10.1
 
 <Start>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
         canvas.before:
             Color:
@@ -9,6 +16,7 @@
                 pos: self.pos
                 size: self.size
         orientation: 'vertical'
+
         GridLayout:
             row_force_default: True
             row_default_height: 40
@@ -78,6 +86,12 @@
                 font_size: 40
                 disabled: root.games_disabled
                 on_release: root.start_game('memory')
+        
+        Button:
+            text: "Sair"
+            pos: root.width - 50, root.height - 50
+            size_hint: 150 / root.width, 100 / root.height
+            on_release: root.exit_app()
 
 <Flanker>:
     GridLayout:
@@ -92,6 +106,9 @@
             size: root.width, root.height - 50
             pos: 0, 50 
             Image:
+                size_hint: 4, 1
+                source: root.empty
+            Image:
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
             Image:
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
@@ -103,13 +120,9 @@
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
             Image:
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
-
-        Button:
-            text: "Sair"
-            pos: 0, 0
-            size: root.width / 5, 50
-            on_release: root.manager.current = 'start'
-       
+            Image:
+                size_hint: 4, 1
+                source: root.empty
 <Memory>:
     GridLayout:
         canvas.before:
@@ -124,11 +137,6 @@
             pos: 0, 50 
             Image:
                 source: None if len(root.content) <= 0 else root.paths[root.content[root.counter][root.inner_counter]]
-        Button:
-            text: "Quit"
-            pos: 0, 0
-            size: root.width / 5, 50
-            on_release: root.manager.current = 'start'
 
 <Instruction>:
     GridLayout:
@@ -137,14 +145,7 @@
                 rgba: 1, 1, 1, 1
             Rectangle:
                 pos: self.pos
-                size: self.size
-        
-        Button:
-            text: "Sair"
-            pos: 0, 0
-            size: root.width / 5, 50
-            on_release: root.manager.current = 'start'
-            
+                size: self.size            
 
         BoxLayout:
             canvas.before:
@@ -179,15 +180,3 @@
                 color: 0,0,0,1
                 size_hint: 1, 0.25
 
-        Button:
-            text: "Proximo"
-            pos: root.width - (root.width / 5), 0
-            size: root.width / 5, 50
-            on_release: root.next()
-        
-        Button:
-            text: "Anterior"
-            disabled: root.counter <= 0
-            pos: root.width - 2*(root.width / 5), 0
-            size: root.width / 5, 50
-            on_release: root.previous()

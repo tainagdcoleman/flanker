@@ -11,7 +11,11 @@ from kivy.clock import Clock
 from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 
+from kivy.config import Config
+Config.set('kivy', 'exit_on_escape', 0)
+
 import os
+import sys
 import time
 import yaml
 from datetime import datetime, date
@@ -25,9 +29,8 @@ from openpyxl.styles import Font, Alignment, NamedStyle
 from screeninfo import get_monitors
 
 m = get_monitors()[0]
-Window.size = (m.width * 0.9 , m.height * 0.9)
-Window.left = m.width * 0.05
-Window.top = m.height * 0.05
+Window.size = (m.width, m.height)
+Window.fullscreen = True
 
 path = os.path.dirname(os.path.realpath(__file__))
 
@@ -243,7 +246,7 @@ def input_valid():
 class Start(Screen):
     save_dir = StringProperty(default_save_dir)
     games_disabled = BooleanProperty(False)
-        
+
     def on_enter(self):
         global config
         config = {}
@@ -265,11 +268,15 @@ class Start(Screen):
         instructions_key = 'instructions'
         sm.current = 'instruction'
 
+    def exit_app(self):
+        sys.exit(0)
+
 class Flanker(Screen):
     content = ListProperty()
     right_image = StringProperty()
     left_image = StringProperty()
     counter = NumericProperty()
+    empty = StringProperty(os.path.join('data', 'images', 'empty.png'))
 
     def _keyboard_closed(self):
         if(self._keyboard):
@@ -277,6 +284,9 @@ class Flanker(Screen):
             self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        print(keycode[1])
+        if keycode[1] == 'escape':
+            sm.current = 'start'
         if keycode[1] in self.keys and len(self.log) < len(self.content):       
             direction = keycode[1] in self.right_keys
             dt = time.time() - self.start_time
@@ -340,7 +350,10 @@ class Memory(Screen):
             self._keyboard.unbind(on_key_down=self._on_keyboard_down)
             self._keyboard = None
 
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers): 
+        if keycode[1] == 'escape':
+            sm.current = 'start'
+            return True
         if (keycode[1] in self.keys 
             and self.inner_counter + 1 >= len(self.content[self.counter])
             and len(self.log) < len(self.content)):
@@ -422,7 +435,8 @@ class Instruction(Screen):
             self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        print(keycode[1])
+        if keycode[1] == 'escape':
+            sm.current = 'start'
         if (keycode[1] in ['spacebar', 'right']):
             self.next()
         elif (keycode[1] in ['left']):
