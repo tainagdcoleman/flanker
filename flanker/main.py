@@ -28,9 +28,9 @@ from openpyxl.styles import Font, Alignment, NamedStyle
 
 from screeninfo import get_monitors
 
-# m = get_monitors()[0]
-# Window.size = (m.width, m.height)
-# Window.fullscreen = True
+m = get_monitors()[0]
+Window.size = (m.width, m.height)
+Window.fullscreen = True
 
 path = os.path.dirname(os.path.realpath(__file__))
 
@@ -49,7 +49,6 @@ with open('main.kv', encoding='utf-8') as f:
     Builder.load_string(f.read())
 
 sm = ScreenManager()
-instructions_key = ''
 
 def string_to_date(string):
     day, month, year = tuple([int(x) for x in string.replace(' ', '').split('/')])
@@ -257,10 +256,9 @@ class Start(Screen):
         self.games_disabled = not input_valid()
 
     def start_game(self, chosen_game):
-        global game, instructions_key
+        global game
         game = chosen_game
 
-        instructions_key = 'instructions'
         sm.current = 'game'
 
     def exit_app(self):
