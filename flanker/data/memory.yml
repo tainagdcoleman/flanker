@@ -194,7 +194,7 @@ order:
 - name: frog
   path: images/frog.png
 - name: turtle
-  path: images/turle.png
+  path: images/turtle.png
 - name: bunny
   path: images/bunny.png
 - name: chicken

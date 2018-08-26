@@ -284,7 +284,6 @@ class Flanker(Screen):
             self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        print(keycode[1])
         if keycode[1] == 'escape':
             sm.current = 'start'
         if keycode[1] in self.keys and len(self.log) < len(self.content):       
@@ -366,16 +365,6 @@ class Memory(Screen):
                     instructions_key = 'instructions2'
                     sm.current = 'instruction'
                 else:  
-                    log_data = []
-                    log = [item for sublist in self.logs for item in sublist]
-                    for i in range(len(log)):
-                        is_true, dt = log[i]
-                        log_data.append({
-                            'res': 'certo' if is_true else 'errado',
-                            'time': dt
-                        })
-
-                    save_data(log_data, 'memory')
                     sm.current = 'start'
                 return True
 
@@ -420,9 +409,20 @@ class Memory(Screen):
         self.interval = Clock.schedule_interval(self.update, 2.0)
         
     def on_leave(self): 
-        if(self._keyboard):
+        if self._keyboard:
             self._keyboard.unbind(on_key_down=self._on_keyboard_down)
             self.interval.cancel()
+
+        log_data = []
+        log = [item for sublist in self.logs for item in sublist]
+        for i in range(len(log)):
+            is_true, dt = log[i]
+            log_data.append({
+                'res': 'certo' if is_true else 'errado',
+                'time': dt
+            })
+
+        save_data(log_data, 'memory')
 
 
 class Instruction(Screen):

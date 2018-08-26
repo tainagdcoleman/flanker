@@ -106,22 +106,32 @@
             size: root.width, root.height - 50
             pos: 0, 50 
             Image:
-                size_hint: 4, 1
+                size_hint: 1, 1
                 source: root.empty
             Image:
+                size_hint_x: 1
+                allow_stretch: True
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
             Image:
+                size_hint_x: 1
+                allow_stretch: True
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
 
             Image:
+                size_hint_x: 1
+                allow_stretch: True
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][1] else root.left_image)
 
             Image:
+                size_hint_x: 1
+                allow_stretch: True
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
             Image:
+                size_hint_x: 1
+                allow_stretch: True
                 source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
             Image:
-                size_hint: 4, 1
+                size_hint: 1, 1
                 source: root.empty
 <Memory>:
     GridLayout:
