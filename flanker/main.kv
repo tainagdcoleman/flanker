@@ -93,7 +93,7 @@
             size_hint: 150 / root.width, 100 / root.height
             on_release: root.exit_app()
 
-<Flanker>:
+<Game>:
     GridLayout:
         canvas.before:
             Color:
@@ -107,86 +107,5 @@
             pos: 0, 50 
             Image:
                 size_hint: 1, 1
-                source: root.empty
-            Image:
-                size_hint_x: 1
                 allow_stretch: True
-                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
-            Image:
-                size_hint_x: 1
-                allow_stretch: True
-                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
-
-            Image:
-                size_hint_x: 1
-                allow_stretch: True
-                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][1] else root.left_image)
-
-            Image:
-                size_hint_x: 1
-                allow_stretch: True
-                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
-            Image:
-                size_hint_x: 1
-                allow_stretch: True
-                source: None if len(root.content) <= 0 else (root.right_image if root.content[root.counter][0] else root.left_image)
-            Image:
-                size_hint: 1, 1
-                source: root.empty
-<Memory>:
-    GridLayout:
-        canvas.before:
-            Color:
-                rgba: 1, 1, 1, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        BoxLayout:
-            orientation: "horizontal"
-            size: root.width, root.height - 50
-            pos: 0, 50 
-            Image:
-                source: None if len(root.content) <= 0 else root.paths[root.content[root.counter][root.inner_counter]]
-
-<Instruction>:
-    GridLayout:
-        canvas.before:
-            Color:
-                rgba: 1, 1, 1, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size            
-
-        BoxLayout:
-            canvas.before:
-                Color:
-                    rgba: 1, 1, 1, 1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            orientation: "vertical"
-            size: root.width, root.height - 50
-            pos: 0, 50  
-            Label:
-                text: '' if len(root.instructions) <= 0 else root.instructions[root.counter]['title']
-                text_size: root.width, None
-                halign: 'center'
-                valign: 'top'
-                padding: 20, 20
-                bold: True 
-                font_size: 30
-                color: 0,0,0,1
-                size_hint: 1, 0.25
-            Image:
-                source: None if len(root.instructions) <= 0 else root.instructions[root.counter]['image']
-                size_hint: 1, 0.5
-            Label:
-                text: '' if len(root.instructions) <= 0 else root.instructions[root.counter]['prompt']
-                text_size: root.width, None
-                halign: 'center'
-                valign: 'top'
-                padding: 20, 20
-                font_size: 24
-                color: 0,0,0,1
-                size_hint: 1, 0.25
-
+                source: root.image

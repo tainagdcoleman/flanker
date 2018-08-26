@@ -28,14 +28,14 @@ from openpyxl.styles import Font, Alignment, NamedStyle
 
 from screeninfo import get_monitors
 
-m = get_monitors()[0]
-Window.size = (m.width, m.height)
-Window.fullscreen = True
+# m = get_monitors()[0]
+# Window.size = (m.width, m.height)
+# Window.fullscreen = True
 
 path = os.path.dirname(os.path.realpath(__file__))
 
 info = {}
-config = {}
+game = ''
 
 bold = Font(bold=True, name='Calibri')
 center = Alignment(horizontal='center', vertical='center')
@@ -73,7 +73,8 @@ def adjust_width(ws):
         adjusted_width = (max_length + 2) * 1.2
         ws.column_dimensions[column].width = adjusted_width
 
-def save_data(log, update_sheet):
+def save_data(log):
+    global game
     dob = string_to_date(info['nasc'])
     difference = relativedelta.relativedelta(datetime.now(), dob)
     now = datetime.now()
@@ -132,7 +133,7 @@ def save_data(log, update_sheet):
     ws['A7'] = 'Idade (Meses)'
     ws['B7'] = data['user']['idade_meses']
 
-    if update_sheet == 'flanker':
+    if game == 'flanker':
         if 'flanker' in wb.sheetnames:
             del wb['flanker']
         ws = wb.create_sheet(title='flanker')
@@ -176,7 +177,7 @@ def save_data(log, update_sheet):
         ws['F4'] = '=SUM(C3:C99)'
         ws['F5'] = '=F4/COUNT(C3:C99)'
 
-    elif update_sheet=='memory':
+    elif game=='memory':
         if 'memoria' in wb.sheetnames:
             del wb['memoria']
         ws = wb.create_sheet(title='memoria')
@@ -227,9 +228,6 @@ def save_data(log, update_sheet):
                 wb.close()
                 return 
         
-    
-
-
 def input_valid():
     try:
         if 'nome' not in info or not info['nome']: 
@@ -248,8 +246,6 @@ class Start(Screen):
     games_disabled = BooleanProperty(False)
 
     def on_enter(self):
-        global config
-        config = {}
         self.update('save_dir', self.save_dir)
 
     def update(self, key, value):
@@ -260,221 +256,156 @@ class Start(Screen):
 
         self.games_disabled = not input_valid()
 
-    def start_game(self, game):
-        global config, instructions_key
-        config_path = os.path.join(path, 'data', f'{game}.yml')
-        config = yaml.load(open(config_path, encoding='utf-8'))
+    def start_game(self, chosen_game):
+        global game, instructions_key
+        game = chosen_game
 
         instructions_key = 'instructions'
-        sm.current = 'instruction'
+        sm.current = 'game'
 
     def exit_app(self):
         sys.exit(0)
 
-class Flanker(Screen):
-    content = ListProperty()
-    right_image = StringProperty()
-    left_image = StringProperty()
-    counter = NumericProperty()
-    empty = StringProperty(os.path.join('data', 'images', 'empty.png'))
+class Game(Screen):
+    image = StringProperty()
+
+    def on_pre_enter(self):
+        global game
+        config_path = os.path.join(path, 'data', game, 'config.yml')
+        self.config = yaml.load(open(config_path, encoding='utf-8'))
+        
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+        if game == 'flanker':
+            self.init_flanker()
+        elif game == 'memory':
+            self.init_memory()
+        else:
+            sm.current = 'start'
+            
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        global game
+        if keycode[1] == 'escape':
+            sm.current = 'start'
+
+        if game == 'flanker':
+            self.keyboard_flanker(keycode[1])
+        elif game == 'memory':
+            self.keyboard_memory(keycode[1])
+        else:
+            sm.current = 'start'
+
+        return True
 
     def _keyboard_closed(self):
         if(self._keyboard):
             self._keyboard.unbind(on_key_down=self._on_keyboard_down)
             self._keyboard = None
 
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[1] == 'escape':
-            sm.current = 'start'
-        if keycode[1] in self.keys and len(self.log) < len(self.content):       
-            direction = keycode[1] in self.right_keys
-            dt = time.time() - self.start_time
-            self.log.append((direction, dt))
-        
-            if self.counter + 1 >= len(self.content):
-                sm.current = 'start'
-                return True  
-            self.counter += 1
-            self.start_time = time.time()
-        return True
+    def on_leave(self):
+        global game
+        if game == 'flanker':
+            self.finish_flanker()
+        elif game == 'memory':
+            self.finish_memory()
 
-    def on_pre_enter(self):
+        if(self._keyboard):
+            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+
+    def get_slide(self):
+        global path
+        return os.path.join(path, 'data', game, f'Slide{self.index + 1}.PNG')
+
+    ### FLANKER GAME ###
+    def init_flanker(self):
+        self.index = -1
+        self.logs = []
         self.left_keys = {'q', 'left'}
         self.right_keys = {'p', 'right'}
         self.keys = self.left_keys | self.right_keys
-        self.left_image = os.path.join(path, 'data', config['left_image'])
-        self.right_image = os.path.join(path, 'data', config['right_image'])
-        self.middle = True
-        self.crowd = True
-        self.content = config['content']
-        self.counter = 0
+        self.next_flanker()
 
-        self.start_time = time.time()
-        self.log = []
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+    def keyboard_flanker(self, keycode):
+        slide = self.config['slides'][self.index]
+        if keycode == 'spacebar' and slide['type'] == 'instruction':
+            self.next_flanker()
+        elif keycode in self.keys and slide['type'] == 'content':
+            dt = time.time() - self.time
+            user_answer = 'direita' if keycode in self.right_keys else 'esquerda'
+            answer = self.config['slides'][self.index]['answer']
+            answer = 'direita' if answer == 'right' else 'esquerda'
+            self.logs.append((user_answer, answer, dt))
+            self.next_flanker()
 
-    def on_leave(self):
-        log_data = []
-        for i in range(len(self.log)):
-            user_dir, dt = self.log[i]
-            ans_dir = self.content[i][1]
-            log_data.append({
-                'res_user': 'direita' if user_dir else 'esquerda',
-                'res_actual': 'direita' if ans_dir else 'esquerda',
-                'time': dt
-            })
-
-        save_data(log_data, 'flanker')
-
-        if(self._keyboard):
-            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-
-class Memory(Screen):
-    counter = NumericProperty()
-    inner_counter = NumericProperty()
-    content = ListProperty()
-    order = ListProperty()
-    paths = DictProperty()
-   
-    def update(self, dt):
-        if self.inner_counter + 1 < len(self.content[self.counter]):
-            self.inner_counter += 1
-            if self.inner_counter + 1 >= len(self.content[self.counter]):
-                self.interval.cancel()
-                self.start_time = time.time()
-    
-    def _keyboard_closed(self):
-        if(self._keyboard):
-            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-            self._keyboard = None
-
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers): 
-        if keycode[1] == 'escape':
+    def next_flanker(self):
+        if self.index + 1 >= len(self.config['slides']):
             sm.current = 'start'
-            return True
-        if (keycode[1] in self.keys 
-            and self.inner_counter + 1 >= len(self.content[self.counter])
-            and len(self.log) < len(self.content)):
-
-            if self.counter + 1 >= len(self.content):
-                global instructions_key
-                if instructions_key == 'instructions':
-                    self.inner_counter = 0
-                    self.counter = 0
-                    instructions_key = 'instructions2'
-                    sm.current = 'instruction'
-                else:  
-                    sm.current = 'start'
-                return True
-
-            is_true = keycode[1] in self.true_keys
-            dt = time.time() - self.start_time
-            self.log.append((is_true, dt))
-
-            self.inner_counter = 0
-            self.counter += 1
-            self.interval = Clock.schedule_interval(self.update, 2.0)
-              
-        return True
-    
-    def on_pre_enter(self):
-        self.inner_counter = 0
-        self.counter = 0
-
-        if instructions_key == 'instructions':
-            paths = {}
-            for entry in config['order']:
-                paths[entry['name']] = os.path.join(path, 'data', entry['path'])
-
-            self.logs = []
-            self.paths = paths 
-            self.content = config['content']
-
-            self.true_keys = {'1', 'numpad1', 'right'}
-            self.false_keys = {'0', 'numpad0', 'left'}
-            self.keys = self.true_keys | self.false_keys
-        elif instructions_key == 'instructions2':
-            self.content = config['content2']
-        
-        self.logs.append([])
-        self.log = self.logs[-1]
-
-        self.start_time = time.time()
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_keyboard_down)
-
-
-    def on_enter(self):
-        self.interval = Clock.schedule_interval(self.update, 2.0)
-        
-    def on_leave(self): 
-        if self._keyboard:
-            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-            self.interval.cancel()
-
-        log_data = []
-        log = [item for sublist in self.logs for item in sublist]
-        for i in range(len(log)):
-            is_true, dt = log[i]
-            log_data.append({
-                'res': 'certo' if is_true else 'errado',
-                'time': dt
-            })
-
-        save_data(log_data, 'memory')
-
-
-class Instruction(Screen):
-    instructions = ListProperty([])
-    counter = NumericProperty(0)
-
-    def _keyboard_closed(self):
-        if(self._keyboard):
-            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-            self._keyboard = None
-
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[1] == 'escape':
-            sm.current = 'start'
-        if (keycode[1] in ['spacebar', 'right']):
-            self.next()
-        elif (keycode[1] in ['left']):
-            self.previous()
-    
-    def on_pre_enter(self):
-        global info, config
-        self.info = info 
-        instructions = config[instructions_key]  
-        for instruction in instructions:
-            instruction['image'] = os.path.join(path, 'data', instruction['image'])
-        
-        self.counter = 0
-        self.instructions = instructions
-        
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down=self._on_keyboard_down)
-
-    def next(self):
-        if self.counter + 1 >= len(self.instructions):
-            sm.current = config['game']
         else:
-            self.counter += 1
+            self.index += 1
 
-    def previous(self):
-        if self.counter - 1 >= 0:
-            self.counter -= 1
+            slide = self.config['slides'][self.index]
+            if slide['type'] == 'instruction':
+                pass
+            elif slide['type'] == 'content':
+                self.time = time.time()
+            self.image = self.get_slide()
+    
+    def finish_flanker(self):
+        log_data = []
+        for user_answer, answer, dt in self.logs:
+            log_data.append({
+                'res_user': user_answer,
+                'res_actual': answer,
+                'time': dt
+            })
 
-    def on_leave(self):
-        if (self._keyboard):
-            self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+        save_data(log_data)
 
+    ### MEMORY GAME ###        
+    def init_memory(self):
+        self.index = -1
+        self.interval = None
+        self.logs = []
+        self.wrong_keys = {'1', 'numpad1'}
+        self.right_keys = {'0', 'numpad0'}
+        self.keys = self.wrong_keys | self.right_keys
+        self.next_memory()
 
+    def keyboard_memory(self, keycode):
+        slide = self.config['slides'][self.index]
+        if keycode == 'spacebar' and slide['type'] == 'instruction':
+            self.next_memory()
+        elif keycode in self.keys and slide['type'] == 'wait_for_feedback':
+            dt = time.time() - self.time
+            user_answer = 'certo' if keycode in self.right_keys else 'errado'
+            self.logs.append({'res': user_answer, 'time': dt})
+            self.next_memory()
+
+    def next_memory(self, *args, **kwargs):
+        if self.index + 1 >= len(self.config['slides']):
+            sm.current = 'start'
+        else:
+            self.index += 1
+
+            slide = self.config['slides'][self.index]
+            if slide['type'] == 'instruction':
+                pass
+            if slide['type'] == 'wait_for_feedback':
+                if self.interval is not None:
+                    self.interval.cancel()
+                    self.interval = None
+                self.time = time.time()
+            elif slide['type'] == 'content':
+                if self.interval is None:
+                    self.interval = Clock.schedule_interval(self.next_memory, 2.0)
+            self.image = self.get_slide()
+    
+    def finish_memory(self):
+        save_data(self.logs)
 
 sm.add_widget(Start(name='start'))
-sm.add_widget(Flanker(name='flanker'))
-sm.add_widget(Memory(name='memory'))
-sm.add_widget(Instruction(name = 'instruction'))
+sm.add_widget(Game(name='game'))
 
 class NeuropsyApp(App):
     icon = 'icon.png'
