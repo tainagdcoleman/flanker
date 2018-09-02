@@ -28,9 +28,9 @@ from openpyxl.styles import Font, Alignment, NamedStyle
 
 from screeninfo import get_monitors
 
-# m = get_monitors()[0]
-# Window.size = (m.width, m.height)
-# Window.fullscreen = True
+m = get_monitors()[0]
+Window.size = (m.width, m.height)
+Window.fullscreen = True
 
 path = os.path.dirname(os.path.realpath(__file__))
 
