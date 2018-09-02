@@ -18,7 +18,6 @@ if __name__ == '__main__':
 
     with open('neuropsy.spec', 'w+') as fp:
         for i in range(len(lines)):
-            print(lines[i])
             if 'COLLECT' in lines[i]:
                 lines[i] = lines[i].strip(' \t\n\r') + " Tree('flanker'), \n"
             if 'a.datas' in lines[i]:
