@@ -45,7 +45,7 @@ default_save_dir = os.path.join(os.path.expanduser('~'), 'Neuropsy')
 if not os.path.exists(default_save_dir):
     os.makedirs(default_save_dir)
 
-with open('main.kv', encoding='utf-8') as f:
+with open(os.path.join(path, 'main.kv'), encoding='utf-8') as f:
     Builder.load_string(f.read())
 
 sm = ScreenManager()
